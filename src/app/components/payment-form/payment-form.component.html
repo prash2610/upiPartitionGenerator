@@ -1,0 +1,156 @@
+<!-- <div class="payment-page"> -->
+    <div
+    class="payment-page"
+    [class.generated]="showQr"
+  >
+  
+
+    <div class="payment-form">
+  
+      <div class="form-header">
+        <h2>UPI Payment Generator</h2>
+        <p>
+          Enter the payment details to generate partitions and QR codes.
+        </p>
+      </div>
+  
+      <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
+  
+        <!-- Total Amount -->
+        <div class="form-group">
+  
+          <label for="totalAmount">
+            Total Amount
+          </label>
+  
+          <div class="input-wrapper">
+  
+            <span class="currency">₹</span>
+  
+            <input
+              id="totalAmount"
+              type="number"
+              formControlName="totalAmount"
+              placeholder="Enter total amount"
+              min="1"
+              step="0.01"
+            />
+  
+          </div>
+  
+          @if (
+            paymentForm.controls.totalAmount.touched &&
+            paymentForm.controls.totalAmount.invalid
+          ) {
+            <small class="error">
+              Please enter a valid amount.
+            </small>
+          }
+  
+        </div>
+  
+  
+        <!-- UPI ID -->
+        <div class="form-group">
+  
+          <label for="upiId">
+            UPI ID
+          </label>
+  
+          <input
+            id="upiId"
+            type="text"
+            formControlName="upiId"
+            placeholder="example@upi"
+          />
+  
+          @if (
+            paymentForm.controls.upiId.touched &&
+            paymentForm.controls.upiId.invalid
+          ) {
+            <small class="error">
+              UPI ID is required.
+            </small>
+          }
+  
+        </div>
+  
+  
+        <!-- Payee Name -->
+        <div class="form-group">
+  
+          <label for="payeeName">
+            Payee Name
+          </label>
+  
+          <input
+            id="payeeName"
+            type="text"
+            formControlName="payeeName"
+            placeholder="Enter payee name"
+          />
+  
+          @if (
+            paymentForm.controls.payeeName.touched &&
+            paymentForm.controls.payeeName.invalid
+          ) {
+            <small class="error">
+              Payee name is required.
+            </small>
+          }
+  
+        </div>
+  
+  
+        <!-- Submit -->
+        <button
+          type="submit"
+          class="generate-button"
+        >
+          Generate Partitions
+        </button>
+  
+      </form>
+  
+    </div>
+  
+  
+    <!-- QR Preview -->
+  
+    <div
+      class="qr-section"
+      [class.visible]="showQr"
+    >
+  
+      <div class="qr-card">
+  
+        <div class="qr-header">
+          <span>Payment QR</span>
+        </div>
+  
+        <div class="qr-placeholder">
+  
+          <div class="qr-icon">
+            QR
+          </div>
+  
+          <p>
+            QR code will appear here
+          </p>
+  
+        </div>
+  
+        <div class="qr-amount">
+          ₹1,999
+        </div>
+  
+        <p class="qr-description">
+          Scan this QR code to make the payment.
+        </p>
+  
+      </div>
+  
+    </div>
+  
+  </div>
+  

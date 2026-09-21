@@ -1,0 +1,278 @@
+.payment-page {
+  max-width: 1100px;
+  min-height: 80vh;
+  margin: 0 auto;
+
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+}
+
+
+/* -------------------------
+   FORM
+------------------------- */
+
+.payment-form {
+  width: 500px;
+  padding: 32px;
+  box-sizing: border-box;
+
+  background: #ffffff;
+  border-radius: 16px;
+
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+
+  transform: translateX(0);
+
+  transition:
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+
+.form-header {
+  margin-bottom: 28px;
+
+  h2 {
+    margin: 0 0 8px;
+    font-size: 28px;
+    color: #1f2937;
+  }
+
+  p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+}
+
+.form-group {
+  margin-bottom: 20px;
+
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #374151;
+  }
+
+  input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &:focus {
+      border-color: #4f46e5;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    }
+  }
+}
+
+.input-wrapper {
+  position: relative;
+
+  .currency {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6b7280;
+    font-size: 16px;
+  }
+
+  input {
+    padding-left: 32px;
+  }
+}
+
+.generate-button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  background: #4f46e5;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+
+  &:hover {
+    background: #4338ca;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+/* -------------------------
+   QR SECTION
+------------------------- */
+
+.qr-section {
+  position: absolute;
+
+  left: calc(50% + 120px);
+  top: 50%;
+
+  transform: translate(100%, -50%);
+
+  opacity: 0;
+  pointer-events: none;
+
+  transition:
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.5s ease;
+}
+/* --------------------------------
+   AFTER GENERATE
+-------------------------------- */
+
+// .payment-page.generated {
+//   justify-content: flex-start;
+//   gap: 80px;
+// }
+
+
+/* Move form toward the left */
+
+.payment-page.generated .payment-form {
+  transform: translateX(-280px);
+}
+
+/* Show QR */
+
+.payment-page.generated .qr-section {
+  transform: translate(0, -50%);
+
+  opacity: 1;
+
+  pointer-events: auto;
+}
+
+
+.qr-section.visible {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.qr-card {
+  width: 380px;
+
+  padding: 28px;
+  box-sizing: border-box;
+
+  background: #ffffff;
+  border-radius: 20px;
+
+  text-align: center;
+
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+}
+
+
+
+.qr-header {
+  margin-bottom: 24px;
+
+  span {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1f2937;
+  }
+}
+
+.qr-placeholder {
+  width: 240px;
+  height: 240px;
+  margin: 0 auto 20px;
+  border: 2px dashed #d1d5db;
+  border-radius: 12px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  color: #9ca3af;
+}
+
+.qr-icon {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 4px solid #4f46e5;
+  border-radius: 8px;
+
+  font-weight: 800;
+  color: #4f46e5;
+}
+
+.qr-placeholder p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.qr-amount {
+  margin-top: 12px;
+  font-size: 30px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.qr-description {
+  margin: 8px 0 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+
+/* -------------------------
+   RESPONSIVE
+------------------------- */
+
+@media (max-width: 768px) {
+
+  .payment-page {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    margin: 20px auto;
+  }
+
+  .payment-form {
+    max-width: none;
+  }
+
+  .qr-section {
+    transform: translateY(40px);
+  }
+
+  .qr-section.visible {
+    transform: translateY(0);
+  }
+
+}
+
+.error {
+  display: block;
+  margin-top: 6px;
+  color: #dc2626;
+  font-size: 13px;
+}
