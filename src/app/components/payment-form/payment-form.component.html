@@ -135,28 +135,45 @@
   
   
       <div class="partition-list">
-  
+
         @for (partition of partitions; track partition.id) {
-  
+      
           <div class="partition-item">
-  
+      
             <div class="partition-info">
-  
+      
               <span class="partition-label">
                 Partition {{ partition.id }}
               </span>
-  
+      
               <span class="partition-amount">
                 ₹{{ partition.amount | number:'1.2-2' }}
               </span>
-  
+      
             </div>
-  
+      
+      
+            @if (partition.paymentUrl) {
+      
+              <div class="qr-wrapper">
+      
+                <qrcode
+                  [qrdata]="partition.paymentUrl"
+                  [width]="180"
+                  [errorCorrectionLevel]="'M'"
+                  [elementType]="'canvas'"
+                ></qrcode>
+      
+              </div>
+      
+            }
+      
           </div>
-  
+      
         }
-  
+      
       </div>
+      
   
   
       <div class="partition-total">

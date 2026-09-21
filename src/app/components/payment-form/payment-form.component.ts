@@ -9,10 +9,15 @@ import {
 import { PartitionService } from '../../services/partition.service';
 import { PaymentPartition } from '../../models/payment-partition.model';
 import { UpiService } from '../../services/upi.service';
+import { QRCodeComponent } from 'angularx-qrcode';
 
 @Component({
   selector: 'app-payment-form',
-  imports: [ReactiveFormsModule,DecimalPipe],
+  imports: [
+          ReactiveFormsModule,
+          DecimalPipe,
+          QRCodeComponent
+        ],
   templateUrl: './payment-form.component.html',
   styleUrl: './payment-form.component.scss'
 })
