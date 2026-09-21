@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
 import {
   FormControl,
   FormGroup,
@@ -7,9 +8,11 @@ import {
 } from '@angular/forms';
 import { PartitionService } from '../../services/partition.service';
 import { PaymentPartition } from '../../models/payment-partition.model';
+import { UpiService } from '../../services/upi.service';
+
 @Component({
   selector: 'app-payment-form',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,DecimalPipe],
   templateUrl: './payment-form.component.html',
   styleUrl: './payment-form.component.scss'
 })
@@ -32,7 +35,9 @@ export class PaymentFormComponent {
 
   showQr = false;
   partitions:PaymentPartition[]=[];
-  constructor(private partitionService: PartitionService){}
+  constructor(private partitionService: PartitionService,
+              private upiService:UpiService
+  ){}
 
   onSubmit(): void {
     if (this.paymentForm.invalid) {
@@ -43,13 +48,24 @@ export class PaymentFormComponent {
     console.log(this.paymentForm.value);
 
     const totalAmount = this.paymentForm.controls.totalAmount.value;
+    const upiId=this.paymentForm.controls.upiId.value;
+    const payeeName=this.paymentForm.controls.payeeName.value;
     
-    if (totalAmount === null) {
+    if (totalAmount === null||!upiId||!payeeName) {
       return;
     }
 
 
     this.partitions =this.partitionService.generatePartitions(totalAmount);
+    this.partitions=this.partitions.map(partition=>({
+      ...partition,
+      paymentUrl:this.upiService.generatePaymentUrl(
+        upiId,
+        payeeName,
+        partition.amount
+      )
+    }));
+    
     console.log('Partitions:', this.partitions);
 
     this.showQr = true;

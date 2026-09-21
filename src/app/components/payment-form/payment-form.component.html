@@ -122,33 +122,55 @@
       [class.visible]="showQr"
     >
   
-      <div class="qr-card">
+    <div class="partition-card">
+
+      <div class="partition-header">
+        <h3>Payment Partitions</h3>
   
-        <div class="qr-header">
-          <span>Payment QR</span>
-        </div>
+        <span>
+          {{ partitions.length }}
+          {{ partitions.length === 1 ? 'Partition' : 'Partitions' }}
+        </span>
+      </div>
   
-        <div class="qr-placeholder">
   
-          <div class="qr-icon">
-            QR
+      <div class="partition-list">
+  
+        @for (partition of partitions; track partition.id) {
+  
+          <div class="partition-item">
+  
+            <div class="partition-info">
+  
+              <span class="partition-label">
+                Partition {{ partition.id }}
+              </span>
+  
+              <span class="partition-amount">
+                ₹{{ partition.amount | number:'1.2-2' }}
+              </span>
+  
+            </div>
+  
           </div>
   
-          <p>
-            QR code will appear here
-          </p>
-  
-        </div>
-  
-        <div class="qr-amount">
-          ₹1,999
-        </div>
-  
-        <p class="qr-description">
-          Scan this QR code to make the payment.
-        </p>
+        }
   
       </div>
+  
+  
+      <div class="partition-total">
+  
+        <span>Total</span>
+  
+        <strong>
+          ₹{{ paymentForm.controls.totalAmount.value | number:'1.2-2' }}
+        </strong>
+  
+      </div>
+  
+    </div>
+  
   
     </div>
   
