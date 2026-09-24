@@ -1,195 +1,162 @@
 <!-- <div class="payment-page"> -->
-    <div
-    class="payment-page"
-    [class.generated]="showQr"
-  >
-  
+<div class="payment-page" [class.generated]="showQr">
 
-    <div class="payment-form">
-  
-      <div class="form-header">
-        <h2>UPI Payment Generator</h2>
-        <p>
-          Enter the payment details to generate partitions and QR codes.
-        </p>
-      </div>
-  
-      <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
-  
-        <!-- Total Amount -->
-        <div class="form-group">
-  
-          <label for="totalAmount">
-            Total Amount
-          </label>
-  
-          <div class="input-wrapper">
-  
-            <span class="currency">₹</span>
-  
-            <input
-              id="totalAmount"
-              type="number"
-              formControlName="totalAmount"
-              placeholder="Enter total amount"
-              min="1"
-              step="0.01"
-            />
-  
-          </div>
-  
-          @if (
-            paymentForm.controls.totalAmount.touched &&
-            paymentForm.controls.totalAmount.invalid
-          ) {
-            <small class="error">
-              Please enter a valid amount.
-            </small>
-          }
-  
-        </div>
-  
-  
-        <!-- UPI ID -->
-        <div class="form-group">
-  
-          <label for="upiId">
-            UPI ID
-          </label>
-  
-          <input
-            id="upiId"
-            type="text"
-            formControlName="upiId"
-            placeholder="example@upi"
-          />
-  
-          @if (
-            paymentForm.controls.upiId.touched &&
-            paymentForm.controls.upiId.invalid
-          ) {
-            <small class="error">
-              UPI ID is required.
-            </small>
-          }
-  
-        </div>
-  
-  
-        <!-- Payee Name -->
-        <div class="form-group">
-  
-          <label for="payeeName">
-            Payee Name
-          </label>
-  
-          <input
-            id="payeeName"
-            type="text"
-            formControlName="payeeName"
-            placeholder="Enter payee name"
-          />
-  
-          @if (
-            paymentForm.controls.payeeName.touched &&
-            paymentForm.controls.payeeName.invalid
-          ) {
-            <small class="error">
-              Payee name is required.
-            </small>
-          }
-  
-        </div>
-  
-  
-        <!-- Submit -->
-        <button
-          type="submit"
-          class="generate-button"
-        >
-          Generate Partitions
-        </button>
-  
-      </form>
-  
+
+  <div class="payment-form">
+
+    <div class="form-header">
+      <h2>UPI Payment Generator</h2>
+      <p>
+        Enter the payment details to generate partitions and QR codes.
+      </p>
     </div>
-  
-  
-    <!-- QR Preview -->
-  
-    <div
-      class="qr-section"
-      [class.visible]="showQr"
-    >
-  
+
+    <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
+
+      <!-- Total Amount -->
+      <div class="form-group">
+
+        <label for="totalAmount">
+          Total Amount
+        </label>
+
+        <div class="input-wrapper">
+
+          <span class="currency">₹</span>
+
+          <input id="totalAmount" type="number" formControlName="totalAmount" placeholder="Enter total amount" min="1"
+            step="0.01" />
+
+        </div>
+
+        @if (
+        paymentForm.controls.totalAmount.touched &&
+        paymentForm.controls.totalAmount.invalid
+        ) {
+        <small class="error">
+          Please enter a valid amount.
+        </small>
+        }
+
+      </div>
+
+
+      <!-- UPI ID -->
+      <div class="form-group">
+
+        <label for="upiId">
+          UPI ID
+        </label>
+
+        <input id="upiId" type="text" formControlName="upiId" placeholder="example@upi" />
+
+        @if (
+        paymentForm.controls.upiId.touched &&
+        paymentForm.controls.upiId.invalid
+        ) {
+        <small class="error">
+          UPI ID is required.
+        </small>
+        }
+
+      </div>
+
+
+      <!-- Payee Name -->
+      <div class="form-group">
+
+        <label for="payeeName">
+          Payee Name
+        </label>
+
+        <input id="payeeName" type="text" formControlName="payeeName" placeholder="Enter payee name" />
+
+        @if (
+        paymentForm.controls.payeeName.touched &&
+        paymentForm.controls.payeeName.invalid
+        ) {
+        <small class="error">
+          Payee name is required.
+        </small>
+        }
+
+      </div>
+
+
+      <!-- Submit -->
+      <button type="submit" class="generate-button">
+        Generate Partitions
+      </button>
+
+    </form>
+
+  </div>
+
+
+  <!-- QR Preview -->
+
+  <div class="qr-section">
+
     <div class="partition-card">
 
       <div class="partition-header">
-        <h3>Payment Partitions</h3>
-  
+        <div>
+          <h3>Payment QR Codes</h3>
+          <p>Scan the QR for the required amount</p>
+        </div>
+
         <span>
           {{ partitions.length }}
           {{ partitions.length === 1 ? 'Partition' : 'Partitions' }}
         </span>
       </div>
-  
-  
-      <div class="partition-list">
+
+      <div class="qr-grid">
 
         @for (partition of partitions; track partition.id) {
-      
-          <div class="partition-item">
-      
-            <div class="partition-info">
-      
-              <span class="partition-label">
-                Partition {{ partition.id }}
-              </span>
-      
-              <span class="partition-amount">
-                ₹{{ partition.amount | number:'1.2-2' }}
-              </span>
-      
-            </div>
-      
-      
-            @if (partition.paymentUrl) {
-      
-              <div class="qr-wrapper">
-      
-                <qrcode
-                  [qrdata]="partition.paymentUrl"
-                  [width]="180"
-                  [errorCorrectionLevel]="'M'"
-                  [elementType]="'canvas'"
-                ></qrcode>
-      
-              </div>
-      
-            }
-      
+
+        <div class="qr-partition">
+
+          <div class="qr-partition-header">
+            <span>
+              Partition {{ partition.id }}
+            </span>
+
+            <strong>
+              ₹{{ partition.amount | number:'1.2-2' }}
+            </strong>
           </div>
-      
+
+
+          @if (partition.paymentUrl) {
+
+          <div class="qr-wrapper">
+
+            <qrcode [qrdata]="partition.paymentUrl" [width]="140" [errorCorrectionLevel]="'M'" [elementType]="'canvas'">
+            </qrcode>
+
+          </div>
+
+          }
+
+        </div>
+
         }
-      
+
       </div>
-      
-  
-  
       <div class="partition-total">
-  
+
         <span>Total</span>
-  
+
         <strong>
           ₹{{ paymentForm.controls.totalAmount.value | number:'1.2-2' }}
         </strong>
-  
+
       </div>
-  
+
     </div>
-  
-  
-    </div>
-  
+
+
   </div>
-  
+
+</div>

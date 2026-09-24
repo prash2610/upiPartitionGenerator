@@ -1,29 +1,28 @@
 .payment-page {
-  max-width: 1100px;
+  width: min(1100px, 92vw);
   min-height: 80vh;
   margin: 0 auto;
-
-  position: relative;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  overflow: hidden;
+  position: relative;
 }
-
 
 /* -------------------------
    FORM
 ------------------------- */
 
 .payment-form {
-  width: 500px;
+  width: 480px;
+  flex: 0 0 480px;
+
   padding: 32px;
   box-sizing: border-box;
 
   background: #ffffff;
-  border-radius: 16px;
+  border-radius: 18px;
 
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
 
@@ -32,7 +31,6 @@
   transition:
     transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
-
 
 .form-header {
   margin-bottom: 28px;
@@ -121,20 +119,26 @@
 ------------------------- */
 
 .qr-section {
-  position: absolute;
+  width: 480px;
+  flex: 0 0 480px;
 
-  left: calc(50% + 120px);
-  top: 50%;
-
-  transform: translate(100%, -50%);
+  box-sizing: border-box;
 
   opacity: 0;
+
+  transform: translateX(100px);
+
   pointer-events: none;
 
   transition:
     transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
     opacity 0.5s ease;
 }
+.payment-page:not(.generated) .qr-section {
+  position: absolute;
+  visibility: hidden;
+}
+
 /* --------------------------------
    AFTER GENERATE
 -------------------------------- */
@@ -147,20 +151,28 @@
 
 /* Move form toward the left */
 
-.payment-page.generated .payment-form {
-  transform: translateX(-280px);
+.payment-page.generated {
+  gap: 64px;
 }
 
+
+/* Move form slightly left */
+
+.payment-page.generated .payment-form {
+  transform: translateX(0);
+}
 /* Show QR */
 
 .payment-page.generated .qr-section {
-  transform: translate(0, -50%);
+  position: relative;
+  visibility: visible;
 
   opacity: 1;
 
+  transform: translateX(0);
+
   pointer-events: auto;
 }
-
 
 .qr-section.visible {
   opacity: 1;
@@ -168,33 +180,77 @@
   pointer-events: auto;
 }
 
+
+/* ==============================
+   DIVIDER
+============================== */
+
+.payment-page::after {
+  content: '';
+
+  position: absolute;
+
+  top: 8%;
+  bottom: 8%;
+
+  left: 50%;
+
+  width: 1px;
+
+  background: #e5e7eb;
+
+  transform: translateX(-50%);
+
+  opacity: 0;
+
+  transition: opacity 0.5s ease;
+}
+
+
+.payment-page.generated::after {
+  opacity: 1;
+}
+
+
+/* ==============================
+   PARTITION CARD
+============================== */
+
 .partition-card {
-  width: 420px;
+  width: 100%;
+  max-width: 480px;
+
   max-height: 75vh;
 
   padding: 24px;
   box-sizing: border-box;
 
   background: #ffffff;
-  border-radius: 20px;
+  border-radius: 18px;
 
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
 
   overflow-y: auto;
 }
 
+
 .partition-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
 
   margin-bottom: 20px;
 
   h3 {
     margin: 0;
-
     font-size: 20px;
     color: #1f2937;
+  }
+
+  p {
+    margin: 5px 0 0;
+    color: #6b7280;
+    font-size: 13px;
   }
 
   span {
@@ -207,52 +263,57 @@
 
     font-size: 12px;
     font-weight: 600;
+    white-space: nowrap;
   }
 }
 
-.partition-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.qr-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 12px;
+
+  width: 100%;
 }
 
-.partition-item {
-  padding: 14px 16px;
+.qr-partition {
+  min-width: 0;
+  box-sizing: border-box;
+
+  padding: 12px;
 
   background: #f9fafb;
 
   border: 1px solid #e5e7eb;
-  border-radius: 10px;
+  border-radius: 12px;
 
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
 
   &:hover {
-    transform: translateY(-2px);
-
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
   }
 }
 
-.partition-info {
+.qr-partition-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
 
-.partition-label {
-  color: #6b7280;
+  margin-bottom: 10px;
 
-  font-size: 14px;
-  font-weight: 500;
-}
+  span {
+    color: #6b7280;
+    font-size: 12px;
+  }
 
-.partition-amount {
-  color: #111827;
-
-  font-size: 18px;
-  font-weight: 700;
+  strong {
+    color: #111827;
+    font-size: 16px;
+  }
 }
 
 .partition-total {
@@ -276,11 +337,14 @@
   display: flex;
   justify-content: center;
 
-  margin-top: 16px;
-  padding-top: 16px;
+  padding: 6px;
 
-  border-top: 1px solid #e5e7eb;
+  background: #ffffff;
+  border-radius: 8px;
+
+  overflow: hidden;
 }
+
 /* -------------------------
    RESPONSIVE
 ------------------------- */
